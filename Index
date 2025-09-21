@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer to Pump</title>
+    <style>
+        body {
+            background-image: url('background.png'); /* Your uploaded image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Courier New', Courier, monospace; /* Retro font */
+            color: #ff69b4; /* Hot pink for vaporwave vibe */
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff; /* Neon glow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #countdown-container {
+            border: 20px solid transparent;
+            border-image: url('data:image/png;base64,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') 20 repeat;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent bg for readability in the box */
+            border-radius: 10px; /* Slight round for aesthetic */
+        }
+
+        #countdown {
+            font-size: 8em;
+            letter-spacing: 0.1em;
+            animation: glitch 1s infinite; /* Glitch effect for vaporwave aesthetic */
+            margin: 0;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        #playButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            background-color: #00ffff; /* Cyan for vaporwave */
+            color: #ff00ff; /* Magenta text */
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 0 5px #ff69b4;
+            box-shadow: 0 0 10px #00ffff;
+        }
+
+        #playButton:hover {
+            background-color: #ff00ff;
+            color: #00ffff;
+            box-shadow: 0 0 10px #ff00ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="countdown-container">
+        <div id="countdown"></div>
+    </div>
+
+    <button id="playButton">Play Music</button>
+
+    <audio id="audio" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/03/21/audio_9b5a8a4f6a.mp3" type="audio/mpeg"> <!-- Bass-heavy Russian hardbass track -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        function startCountdown() {
+            let time = 24 * 60 * 60; // 24 hours in seconds
+            const countdownEl = document.getElementById('countdown');
+            const interval = setInterval(() => {
+                const hours = Math.floor(time / 3600);
+                const minutes = Math.floor((time % 3600) / 60);
+                const seconds = time % 60;
+                countdownEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                time--;
+                if (time < 0) {
+                    clearInterval(interval);
+                    countdownEl.textContent = "PUMP TIME!";
+                }
+            }, 1000);
+        }
+        startCountdown();
+
+        const audio = document.getElementById('audio');
+        const playButton = document.getElementById('playButton');
+        playButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playButton.textContent = 'Pause Music';
+            } else {
+                audio.pause();
+                playButton.textContent = 'Play Music';
+            }
+        });
+    </script>
+</body>
+</html>
